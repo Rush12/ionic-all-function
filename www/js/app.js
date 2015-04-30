@@ -1,102 +1,82 @@
-angular.module('ionicApp', ['ionic'])
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.controllers' is found in controllers.js
+angular.module('starter', ['ionic', 'starter.controllers'])
+
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
+	openFB.init({appId: '991091004236788'});
+  	$stateProvider
 
-  $stateProvider
-    .state('eventmenu', {
-      url: "/event",
-      abstract: true,
-      templateUrl: "templates/event-menu.html"
-    })
-    .state('eventmenu.home', {
-      url: "/home",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/home.html"
-        }
-      }
-    })
-    .state('eventmenu.checkin', {
-      url: "/check-in",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/check-in.html",
-          controller: "CheckinCtrl"
-        }
-      }
-    })
-    .state('eventmenu.attendees', {
-      url: "/attendees",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/attendees.html",
-          controller: "AttendeesCtrl"
-        }
-      }
-    })
-  
-  $urlRouterProvider.otherwise("/event/home");
-})
+  .state('app', {
+    url: "/app",
+    abstract: true,
+    templateUrl: "templates/menu.html",
+    controller: 'AppCtrl'
+  })
 
-.controller('MainCtrl', function($scope, $ionicSideMenuDelegate) {
-  $scope.attendees = [
-    { firstname: 'Nicolas', lastname: 'Cage' },
-    { firstname: 'Jean-Claude', lastname: 'Van Damme' },
-    { firstname: 'Keanu', lastname: 'Reeves' },
-    { firstname: 'Steven', lastname: 'Seagal' }
-  ];
-  
-  $scope.toggleLeft = function() {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-})
-
-.controller('CheckinCtrl', function($scope) {
-  $scope.showForm = true;
-  
-  $scope.shirtSizes = [
-    { text: 'Large', value: 'L' },
-    { text: 'Medium', value: 'M' },
-    { text: 'Small', value: 'S' }
-  ];
-  
-  $scope.attendee = {};
-  $scope.submit = function() {
-    if(!$scope.attendee.firstname) {
-      alert('Info required');
-      return;
+  .state('app.search', {
+    url: "/search",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/search.html"
+      }
     }
-    $scope.showForm = false;
-    $scope.attendees.push($scope.attendee);
-  };
-  
+  })
+
+  .state('app.browse', {
+    url: "/browse",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/browse.html"
+      }
+    }
+  })
+    .state('app.sessions', {
+  url: "/sessions",
+  views: {
+      'menuContent': {
+          templateUrl: "templates/sessions.html",
+          controller: 'SessionsCtrl'
+      }
+  }
 })
 
-.controller('AttendeesCtrl', function($scope) {
-  
-  $scope.activity = [];
-  $scope.arrivedChange = function(attendee) {
-    var msg = attendee.firstname + ' ' + attendee.lastname;
-    msg += (!attendee.arrived ? ' has arrived, ' : ' just left, '); 
-    msg += new Date().getMilliseconds();
-    $scope.activity.push(msg);
-    if($scope.activity.length > 3) {
-      $scope.activity.splice(0, 1);
+  .state('app.session', {
+    url: "/sessions/:sessionId",
+    views: {
+        'menuContent': {
+          templateUrl: "templates/session.html",
+          controller: 'SessionCtrl'
+      }
     }
-  };
-  
 })
-//Pull to referesh 
-.controller('MyController', function($scope, $http) {
-  $scope.items = [1,2,3];
-  $scope.doRefresh = function() {
-    $http.get('/new-items')
-     .success(function(newItems) {
-       $scope.items = newItems;
-     })
-     .finally(function() {
-       // Stop the ion-refresher from spinning
-       $scope.$broadcast('scroll.refreshComplete');
-     });
-  };
+
+.state('app.profile', {
+  url: "/profile",
+  views: {
+      'menuContent' :{
+          templateUrl: "templates/profile.html",
+          controller: "ProfileCtrl"
+      }
+  }
+});
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/sessions');
 });
