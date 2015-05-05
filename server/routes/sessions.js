@@ -7,6 +7,7 @@ var sessions = [
 ];
 
 exports.findAll = function (req, res, next) {
+	console.log(req);
     res.send(sessions);
 };
 
