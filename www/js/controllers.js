@@ -19,6 +19,7 @@ angular.module('starter.controllers', ['starter.services'])
     // Open the login modal
     $scope.login = function() {
         $scope.modal.show();
+        
     };
 
     // Perform the login action when the user submits the login form
@@ -50,11 +51,11 @@ angular.module('starter.controllers', ['starter.services'])
 
 
 .controller('SessionsCtrl', function($scope, Session, Api) {
-        /*Api.getApiData()
+        Api.getApiData()
         .then(function(result) {
           $scope.sessions = result.data;
-        })*/
-        $scope.sessions = Session.query();
+        })
+        //$scope.sessions = Session.query();
     })
     .controller('SessionCtrl', function($scope, $stateParams, Session) {
         $scope.session = Session.get({

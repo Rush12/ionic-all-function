@@ -8,7 +8,7 @@ angular.module('starter.services', ['ngResource'])
   console.log('ApiEndpoint', ApiEndpoint)
 
   var getApiData = function() {
-  	alert(ApiEndpoint.url + 'sessions')
+  	//alert(ApiEndpoint.url + 'sessions')
     return $http.get(ApiEndpoint.url + 'sessions')
       .then(function(data) {
         console.log('Got some data: ', data);

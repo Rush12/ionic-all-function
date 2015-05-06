@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMaterial'])
         });
     })
     .constant('ApiEndpoint', {
-        url: 'http://10.129.86.29:5000/'
+        url: 'http://10.129.86.103:5000/'
     })
     .config(function($stateProvider, $urlRouterProvider) {
         openFB.init({
@@ -88,6 +88,15 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMaterial'])
                 'menuContent': {
                     templateUrl: "templates/checkbox.html",
                     controller: 'CheckBoxCtrl'
+                }
+            }
+        })
+
+        .state('app.mbutton', {
+            url: "/mbutton",
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/mButton.html"
                 }
             }
         });
